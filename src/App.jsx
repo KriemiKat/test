@@ -1,20 +1,26 @@
-import logo from './logo.svg';
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import React, {useState, useEffect} from 'react';
+const API_URL = `https://v2.jokeapi.dev/joke/Programming?amount=10`;
 
 function App() {
+  const [joke, setJoke] = useState('');
+  
+  const generateJoke = () => {
+    fetch(API_URL)
+    .then(res => res.json())
+    .then(data => setJoke(data.jokes.joke));
+  }
+  useEffect(()=> {
+    generateJoke()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-      <ul className="list-group">
-  <li className="list-group-item">Morkos</li>
-  <li className="list-group-item">Bananai</li>
-  <li className="list-group-item">Pienas</li>
-  <li className="list-group-item">Salotos</li>
-  <li className="list-group-item">Obuoliai</li>
-</ul>
-      </header>
-    </div>
+    <div className="box">
+<h1>Jokes</h1>
+<p> {joke}</p>
+<button onClick ={generateJoke}>Get new joke </button> 
+   </div>
   );
 }
 
